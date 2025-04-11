@@ -25,19 +25,19 @@ import matplotlib.pyplot as plt
 # FC2_DIMS = 128
 
 # Hyperparameters
-EPISODES = 2500
-LEARNING_RATE = 0.001
-MEM_SIZE = 4000
-REPLAY_START_SIZE = 500
+EPISODES = 10000
+LEARNING_RATE = 0.0005
+MEM_SIZE = 40000
+REPLAY_START_SIZE = 1000
 BATCH_SIZE = 64
 GAMMA = 0.99
 EPS_START = 1.0
 EPS_END = 0.01
 EPS_DECAY = 8 * MEM_SIZE
 MEM_RETAIN = 0.1
-NETWORK_UPDATE_ITERS = 500
-FC1_DIMS = 64
-FC2_DIMS = 64
+NETWORK_UPDATE_ITERS = 1000
+FC1_DIMS = 256
+FC2_DIMS = 256
 
 
 np.bool = np.bool_
@@ -119,17 +119,7 @@ class DQN_Solver:
                 eps = 1.0
             if random.random() < eps:
                 # Non-uniform sampling based on prior knowledge
-                exploration_probs = np.array([
-                    0.12,  # 0: Reverse-Left
-                    0.12,  # 1: Reverse
-                    0.12,  # 2: Reverse-Right
-                    0.005, # 3: Steer-Left (no throttle)
-                    0.001, # 4: No throttle and no steering
-                    0.005, # 5: Steer-Right (no throttle)
-                    0.12,  # 6: Forward-right
-                    0.12,  # 7: Forward
-                    0.12   # 8: Forward-left
-                    ])
+                exploration_probs = np.array([0.1, 0.2, 0.1, 0.09, 0.02, 0.09, 0.1, 0.2, 0.1])
                 exploration_probs /= exploration_probs.sum()
                 return np.random.choice(np.arange(9), p=exploration_probs)
 
